@@ -41,7 +41,34 @@ npm install -g diag2md-mcp
 
 ## MCP Server Configuration
 
-To connect `diag2md-mcp` to your favorite AI assistant or MCP client, add the server to your client configuration file (e.g. `mcpServers` in `claude_desktop_config.json`, Cursor, or Antigravity MCP settings):
+To connect `diag2md-mcp` to your favorite AI assistant or MCP client, add the server to your client configuration file (e.g., `mcp_config.json`, `claude_desktop_config.json`, Cursor, or Antigravity MCP settings).
+
+### Recommended (Globally Installed Package)
+
+```json
+{
+  "mcpServers": {
+    "diag2md-mcp": {
+      "command": "diag2md-mcp"
+    }
+  }
+}
+```
+
+### Alternative: Local Built Source
+
+```json
+{
+  "mcpServers": {
+    "diag2md-mcp": {
+      "command": "node",
+      "args": ["/path/to/diag2md-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+### Alternative: On-Demand via `npx`
 
 ```json
 {
@@ -77,6 +104,41 @@ The MCP server settings can be customized via environment variables:
 | `DIAG2MD_PATTERNS` | Comma-separated glob patterns to discover diagram files. | `**/architecture/**/*.xml, **/architecture/*.xml, **/*.drawio` |
 | `DIAG2MD_IGNORE` | Comma-separated glob patterns to ignore during file discovery. | `**/node_modules/**, **/dist/**, **/.git/**` |
 | `DIAG2MD_TYPE` | Default conversion diagram type (`c4` or `uml`). | `c4` |
+
+### Configuration Example with `env` Patterns
+
+You can configure custom search patterns directly in your MCP server JSON configuration using the `env` block:
+
+```json
+{
+  "mcpServers": {
+    "diag2md-mcp": {
+      "command": "diag2md-mcp",
+      "env": {
+        "DIAG2MD_PATTERNS": "**/architecture/**/*.xml, **/docs/**/*.drawio",
+        "DIAG2MD_IGNORE": "**/tmp/**, **/node_modules/**",
+        "DIAG2MD_TYPE": "c4"
+      }
+    }
+  }
+}
+```
+
+### Dynamic Tool Call Example with `patterns`
+
+AI assistants or tools can also override search patterns dynamically per request:
+
+```json
+{
+  "name": "convert_diagrams_read",
+  "arguments": {
+    "patterns": [
+      "**/architecture/**/*.xml",
+      "**/docs/**/*.drawio"
+    ]
+  }
+}
+```
 
 ---
 
