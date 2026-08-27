@@ -2,7 +2,7 @@
 
 > Model Context Protocol (MCP) server providing AI coding agents with Draw.io C4 and UML architectural guardrails and diagram conversion capabilities.
 
-[![GitHub Release](https://img.shields.io/github/v/tag/diag2md/diag2md-mcp?label=version&color=blue)](https://github.com/diag2md/diag2md-mcp/releases/tag/v1.0.0)
+[![GitHub Release](https://img.shields.io/github/v/tag/diag2md/diag2md-mcp?label=version&color=blue)](https://github.com/diag2md/diag2md-mcp/releases/tag/v1.0.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 
