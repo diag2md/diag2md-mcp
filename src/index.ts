@@ -1,39 +1,24 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { z } from 'zod';
+import { loadSettings, ServerSettings } from './settings.js';
+import { registerDiagramTools } from './tools/diagramTools.js';
 
 export const SERVER_NAME = 'diag2md-mcp';
 export const SERVER_VERSION = '1.0.0';
 
 /**
- * Creates and initializes the diag2md MCP Server using modern McpServer API.
+ * Creates and initializes the diag2md MCP Server with tools and settings.
  */
-export function createServer(): McpServer {
+export function createServer(customSettings?: Partial<ServerSettings>): McpServer {
+  const settings = loadSettings(customSettings);
+
   const server = new McpServer({
     name: SERVER_NAME,
     version: SERVER_VERSION,
   });
 
-  server.registerTool(
-    'convert_diagram',
-    {
-      description: 'Convert Draw.io C4 architecture diagram to Mermaid Markdown',
-      inputSchema: {
-        content: z.string().describe('Draw.io XML or C4 diagram content to convert'),
-      },
-    },
-    async (args) => {
-      const content = args.content;
-      return {
-        content: [
-          {
-            type: 'text',
-            text: '```mermaid\n%% Converted from diag2md-mcp\nflowchart TD\n    A[Diagram Content Length: ' + content.length + ']\n```',
-          },
-        ],
-      };
-    }
-  );
+  // Register diagram conversion, discovery, and sync tools
+  registerDiagramTools(server, settings);
 
   return server;
 }

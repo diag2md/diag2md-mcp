@@ -2,7 +2,7 @@
 node_modules/
 
 # Dependencies and DevDependencies
-# Dependencies: @modelcontextprotocol/sdk, commander, fast-xml-parser, zod
+# Dependencies: @modelcontextprotocol/sdk, commander, diag2md, fast-glob, fast-xml-parser, zod
 # DevDependencies: @types/node, tsup, typescript, vitest
 
 # TypeScript build output
