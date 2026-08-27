@@ -21,6 +21,17 @@ Powered by [`diag2md`](https://github.com/diag2md/diag2md).
 
 ---
 
+## Agent Architectural Guardrails (`AGENTS.md` / `.cursorrules`)
+
+You can enforce strict architectural compliance across your team by adding an architectural rule directive to your project's `AGENTS.md`, `GEMINI.md`, or `.cursorrules`:
+
+```markdown
+### ARCHITECTURAL RULES
+Before writing any new modules, creating new services, or adding dependencies, you MUST call the `convert_diagrams_read` MCP tool to verify the proposed changes align with the C4 Draw.io architecture. Do not suggest structural changes that violate these boundaries.
+```
+
+---
+
 ## Key Features
 
 - **Automated Workspace Discovery**: Scans project directories for Draw.io diagram files matching configurable glob patterns (`**/architecture/**/*.xml`, `**/*.drawio`).
