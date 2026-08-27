@@ -27,7 +27,10 @@ You can enforce strict architectural compliance across your team by adding an ar
 
 ```markdown
 ### ARCHITECTURAL RULES
-Before writing any new modules, creating new services, or adding dependencies, you MUST call the `convert_diagrams_read` MCP tool to verify the proposed changes align with the C4 Draw.io architecture. Do not suggest structural changes that violate these boundaries.
+Before writing any new modules, creating new services, or adding dependencies,
+you MUST call the `convert_diagrams_read` MCP tool to verify that proposed changes
+align with the C4 Draw.io architecture. Do not suggest structural changes that
+violate these boundaries.
 ```
 
 ---
