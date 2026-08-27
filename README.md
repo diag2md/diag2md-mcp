@@ -12,6 +12,15 @@ Powered by [`diag2md`](https://github.com/diag2md/diag2md).
 
 ---
 
+## Problem Statement
+
+- **The Problem**: AI coding assistants cannot natively interpret visual architecture diagrams (such as Draw.io files). Without a way to parse these diagrams, AI agents frequently generate code that violates a project's established C4 system and container boundaries.
+- **The Impact**: Attempting to solve this by pasting massive, static architectural documents into the AI's prompt severely bloats the context window and reduces the model's performance. As a result, projects suffer from "architectural drift," where the AI-generated codebase slowly misaligns with the intended system design and dependency rules.
+- **The Need**: There is a need for a dynamic, on-demand integration (via an MCP server) that translates visual Draw.io C4 diagrams into an AI-readable format (Mermaid Markdown). This solution will serve as a strict, real-time architectural guardrail, ensuring every AI prompt and code change remains aligned with the project's single source of truth.
+- **Why the C4 Model?**: The C4 model is the ideal architectural language for this bridge because it caters to both human and machine audiences perfectly. Its hierarchical structure (Context, Containers, Components, Code) provides high-level visual clarity that is easy for non-technical stakeholders and business leaders to understand. Simultaneously, its strict categorization provides the exact deterministic boundaries and structural logic that an AI needs to reason about system architecture, making it the perfect standard for AI-assisted engineering guardrails.
+
+---
+
 ## Key Features
 
 - **Automated Workspace Discovery**: Scans project directories for Draw.io diagram files matching configurable glob patterns (`**/architecture/**/*.xml`, `**/*.drawio`).
