@@ -171,4 +171,59 @@ export function registerDiagramTools(server: McpServer, settings: ServerSettings
       };
     }
   );
+
+  // 5. Tool: read_diagrams
+  server.registerTool(
+    'read_diagrams',
+    {
+      description:
+        'Batch scan and convert all workspace diagram files (.xml, .drawio) into Mermaid Markdown, returning their content directly as AI context.',
+      inputSchema: {
+        patterns: z.array(z.string()).optional().describe('Custom glob patterns to scan for diagram files'),
+        diagramType: z.enum(['c4', 'uml']).optional().describe('Diagram type: "c4" or "uml" (default: "c4")'),
+      },
+    },
+    async (args) => {
+      const activeSettings: ServerSettings = {
+        ...settings,
+        diagramPatterns: args.patterns ?? settings.diagramPatterns,
+      };
+
+      const files = await findDiagramFiles(activeSettings);
+      const diagramType = args.diagramType ?? settings.defaultDiagramType;
+
+      if (files.length === 0) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `No diagram files found matching patterns: ${JSON.stringify(activeSettings.diagramPatterns)}`,
+            },
+          ],
+        };
+      }
+
+      const results: string[] = [];
+
+      for (const file of files) {
+        const outputPath = getOutputPath(file, settings.outputExtension);
+        const res = await convertDiagramFile(file, outputPath, diagramType);
+
+        if (res.success && res.mermaidContent) {
+          results.push(`### Architecture Diagram: ${file}\n\n\`\`\`mermaid\n${res.mermaidContent}\n\`\`\``);
+        } else {
+          results.push(`### Architecture Diagram: ${file} (Conversion Failed)\n\nError: ${res.error}`);
+        }
+      }
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: results.join('\n\n---\n\n'),
+          },
+        ],
+      };
+    }
+  );
 }
